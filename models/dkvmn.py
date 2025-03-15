@@ -88,6 +88,7 @@ class DKVMN(Module):
 
         return p, Mv
 
+
     def train_model(
         self, train_loader, test_loader, num_epochs, opt, ckpt_path
     ):
