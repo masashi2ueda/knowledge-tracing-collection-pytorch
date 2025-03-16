@@ -10,7 +10,7 @@ else:
     from torch import FloatTensor
 
 
-def match_seq_len(q_seqs, r_seqs, seq_len, pad_val=-1):
+def match_seq_len(q_seqs, r_seqs, seq_len, pad_val=-1, is_return_org_idxs=False):
     '''
         Args:
             q_seqs: the question(KC) sequences with the size of \
@@ -34,12 +34,14 @@ def match_seq_len(q_seqs, r_seqs, seq_len, pad_val=-1):
     '''
     proc_q_seqs = []
     proc_r_seqs = []
+    orig_indices = []
 
-    for q_seq, r_seq in zip(q_seqs, r_seqs):
+    for org_i, (q_seq, r_seq) in enumerate(zip(q_seqs, r_seqs)):
         i = 0
         while i + seq_len + 1 < len(q_seq):
             proc_q_seqs.append(q_seq[i:i + seq_len + 1])
             proc_r_seqs.append(r_seq[i:i + seq_len + 1])
+            orig_indices.append(org_i)
 
             i += seq_len + 1
 
@@ -59,7 +61,9 @@ def match_seq_len(q_seqs, r_seqs, seq_len, pad_val=-1):
                 ]
             )
         )
-
+        orig_indices.append(org_i)
+    if is_return_org_idxs:
+        return proc_q_seqs, proc_r_seqs, orig_indices
     return proc_q_seqs, proc_r_seqs
 
 

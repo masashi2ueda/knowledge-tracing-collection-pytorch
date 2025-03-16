@@ -82,6 +82,9 @@ def main(model_name, dataset_name):
 
     train_size = int(len(dataset) * train_ratio)
     test_size = len(dataset) - train_size
+    print("train_size:", train_size)
+    print("test_size:", test_size)
+    print(train_size + test_size)
 
     train_dataset, test_dataset = random_split(
         dataset, [train_size, test_size], generator=torch.Generator('cuda')

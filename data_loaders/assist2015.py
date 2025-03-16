@@ -43,8 +43,13 @@ class ASSIST2015(Dataset):
         self.num_q = self.q_list.shape[0]
 
         if seq_len:
-            self.q_seqs, self.r_seqs = \
-                match_seq_len(self.q_seqs, self.r_seqs, seq_len)
+            self.q_seqs, self.r_seqs, self.org_idxs = \
+                match_seq_len(self.q_seqs, self.r_seqs, seq_len, is_return_org_idxs=True)
+            with open(os.path.join(self.dataset_dir, "org_idxs.pkl"), "wb") as f:
+                pickle.dump(self.org_idxs, f)
+            print("len(self.q_seqs):", len(self.q_seqs))
+            print("len(self.r_seqs):", len(self.r_seqs))
+            print("len(self.org_idxs):", len(self.org_idxs))
 
         self.len = len(self.q_seqs)
 
